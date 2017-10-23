@@ -114,13 +114,15 @@ B.	Create a Local Account
 -	UserGroup = Admin
 
 
-C.	Join to Domain
+C.	Join The Machine to the Domain and AD
 
 -	ComputerAccount  
 
 •	Account = Domain account used to join the domain
 
-•	ComputerName = DL-%SERIAL% (Uses asset tag to name computer)
+•	AccountOU = OU=SubOU,OU=TopOU,DC=subdomain,DC=domain,DC=extension
+
+•	ComputerName = PREFIX-%SERIAL% (Uses asset tag to name computer)
 
 •	DomainName = CompanyDomainName.com
 
