@@ -212,6 +212,8 @@ Once the configuration has finished and the sleep period ends, an Internet Explo
 
 By using a web server to communicate with SCCM, we simplify the process and eliminate the need for a coded credentials in the provisioning package. 
 
+Lastly, we set the computer to auto-login to the test account, so the process is automated.
+
 I am still tweaking the code below but it currently works as intended.
 
 ### Server-Side Powershell Code ###
@@ -237,6 +239,14 @@ Add-CMDeviceCollectionDirectMembershipRule -CollectionID $CollectionID -Resource
 
 $Computer1 | Out-String 
 
+### AutoLogin Registry Code ###
+
+Windows Registry Editor Version 5.00
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon]
+"DefaultUserName"="TestUser"
+"AutoAdminLogon"="1"
+"DefaultPassword"="Password"
 
 
 ### References ###
