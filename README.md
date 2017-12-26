@@ -17,7 +17,7 @@ This is still a work in progress, so I will make changes to the readme and code 
 
 Software Requirements:
 
-* Windows 1703 ADK - https://go.microsoft.com/fwlink/p/?LinkId=845542
+* Windows 1703 ADK (or higher) - https://go.microsoft.com/fwlink/p/?LinkId=845542
 
 * CAB Maker - https://1drv.ms/u/s!Am50kiwM8EPrwCofxI7rHPnEByvh
 
