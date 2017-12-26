@@ -183,14 +183,16 @@ Ccmsetup.exe  >> %LOGFILE%
 
 echo result: %ERRORLEVEL% >> %LOGFILE%
 
-:This part is still in testing
+echo Pausing 240 seconds, so SCCM can connect to the server
 
-Sleep 60
+Sleep 240
 
-powershell.exe -ExecutionPolicy Bypass -NoLogo -NonInteractive -File AddLocalMachineToCollection.ps1 >> %LOGFILE%
+echo Adding Local Machine to Collection Via Web Server >> %LOGFILE%
 
+start iexplore.exe http://webserver/RunScriptWithArgument?argument=%COMPUTERNAME% >> %LOGFILE%
 
-### The rest below is still in beta testing ###
+echo Adding AutoLogin to local test account >> %LOGFILE%
+regedit.exe /S autologin-prov.reg >> %LOGFILE%
 
 
 ### Part D: Creating the WCD Package Part 3 (Adding the machine to the collection) ###
@@ -206,50 +208,34 @@ It took a while to figure this part out due to the fact that you can’t add a m
 
 The gist of this process is during the batch file process, once the sccm client has been installed, we tell the process to sleep for “x” number of seconds to allow the client time to talk to the sccm server and fully configure. 
 
-Once the configuration has finished and the sleep period ends, a powershell script runs that will add the machine to the collection and allow any required task sequence to run on the machine.
+Once the configuration has finished and the sleep period ends, an Internet Explorer session opens and runs the url of our web server that is located on the SCCM Server.
 
+By using a web server to communicate with SCCM, we simplify the process and eliminate the need for a coded credentials in the provisioning package. 
 
-One thing to note is that you must have an admin account setup in sccm with the required permissions in order for the powershell script to remote into the server and add the machine to the collection.
+I am still tweaking the code below but it currently works as intended.
 
-
-### The Powershell Code ###
-
+### Server-Side Powershell Code ###
 
 #Variables
+# $args[1] pulls the location machine name from machine running the provisioning package.
+$Computer1 = $args[1]
+$SCCMServer = "localhost"
+$SiteCode = "SITECODE"
+$CollectionID = "Collection ID"
 
-$Computer = $env:computername
-
-$SCCMServer = "sccmserver name"
-
-$SiteCode = "your site code"
-
-$CollectionID = "CollectionID"
-
-#$ADCredentials = New-Object System.Management.Automation.PSCredential (“domain\username”, (ConvertTo-SecureString “password” -AsPlainText -Force))
-
-
-$pw = convertto-securestring -AsPlainText -Force -String Password
-
-$cred = new-object -typename System.Management.Automation.PSCredential -argumentlist "domain\username",$pw
-
+$pw = convertto-securestring -AsPlainText -Force -String Account_Password
+$cred = new-object -typename System.Management.Automation.PSCredential -argumentlist "cdm_inc\service_account_username",$pw
 
 #Initiate the Remote CM Session
-
 $session = New-PSSession -ComputerName $sccmServer -Credential $cred -ConfigurationName Microsoft.PowerShell32
-
 Invoke-Command -Session $session -ScriptBlock { Import-Module -Name "$(split-path $Env:SMS_ADMIN_UI_PATH)\ConfigurationManager.psd1"; Set-Location -path "$(Get-PSDrive -PSProvider CMSite):\" -verbose }
-
 Import-PSSession -Session $session -Module ConfigurationManager -AllowClobber
 
 
-$PSD = Get-PSDrive -PSProvider CMSite
-
-CD "$($PSD)"
-
-
 #Add Local Machine to Collection
+Add-CMDeviceCollectionDirectMembershipRule -CollectionID $CollectionID -ResourceId $(Get-CMDevice -Name $Computer1).ResourceID
 
-Add-CMDeviceCollectionDirectMembershipRule -CollectionID $CollectionID -ResourceId $(Get-CMDevice -Name $Computer).ResourceID 
+$Computer1 | Out-String 
 
 
 
