@@ -248,6 +248,11 @@ Windows Registry Editor Version 5.00
 "AutoAdminLogon"="1"
 "DefaultPassword"="Password"
 
+### Post-Process Clean ###
+
+In order to keep the SCCM Collection updated,
+I created a scheduled task that runs the Remove From Collection Script and removes all machines from the collection.
+
 
 ### References ###
 
