@@ -17,7 +17,7 @@ This is still a work in progress, so I will make changes to the readme and code 
 
 Software Requirements:
 
-* Windows 1703 ADK (or higher) - https://go.microsoft.com/fwlink/p/?LinkId=845542
+* Windows 1709 ADK (or higher) - https://go.microsoft.com/fwlink/p/?LinkId=845542
 
 * CAB Maker - https://1drv.ms/u/s!Am50kiwM8EPrwCofxI7rHPnEByvh
 
@@ -29,6 +29,8 @@ Hardware Requirements:
 * A New Laptop or Desktop to test the process
 
 * Empty USB Stick
+
+* A Wired Ethernet Connection
 
 
 Deployment Instructions:
@@ -183,10 +185,6 @@ Ccmsetup.exe  >> %LOGFILE%
 
 echo result: %ERRORLEVEL% >> %LOGFILE%
 
-echo Pausing 240 seconds, so SCCM can connect to the server
-
-Sleep 240
-
 echo Adding Local Machine to Collection Via Web Server >> %LOGFILE%
 
 start iexplore.exe http://webserver/RunScriptWithArgument?argument=%COMPUTERNAME% >> %LOGFILE%
@@ -206,7 +204,7 @@ The last part of the process is adding the machine to the sccm collection.
 
 It took a while to figure this part out due to the fact that you can’t add a machine into a collection that doesn’t have the client installed.
 
-The gist of this process is during the batch file process, once the sccm client has been installed, we tell the process to sleep for “x” number of seconds to allow the client time to talk to the sccm server and fully configure. 
+The gist of this process is during the batch file process, once the sccm client has been installed, a scheduled task is created to run the Collection Add Script.
 
 Once the configuration has finished and the sleep period ends, an Internet Explorer session opens and runs the url of our web server that is located on the SCCM Server.
 
@@ -250,8 +248,8 @@ Windows Registry Editor Version 5.00
 
 ### Post-Process Clean ###
 
-In order to keep the SCCM Collection updated,
-I created a scheduled task that runs the Remove From Collection Script and removes all machines from the collection.
+Once the task sequence runs, a clean script is triggered that removes any scheduled tasks,
+left-over files, etc that was used during the provisioning process.
 
 
 ### References ###
