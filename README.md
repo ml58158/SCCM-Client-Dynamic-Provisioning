@@ -101,7 +101,7 @@ For any issues or idea, feel free to contact me
 
 17. The Machine is then added to the Provisioning SCCM Collection.
 
-14.	Lastly, a task sequence starts to finish the machine setup, install software and complete the configuration.
+18.	Lastly, a task sequence starts to finish the machine setup, install software and complete the configuration.
 
 
 ### Part A: File Compression ###
