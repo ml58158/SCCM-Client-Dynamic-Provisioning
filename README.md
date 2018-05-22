@@ -79,7 +79,7 @@ For any issues or idea, feel free to contact me
 
 8.	SCCM Client is installed onto the device and sync’d to SCCM Server
 
-9. Google Chrome is Installed.
+9.  Google Chrome is Installed.
 
 10. Pre-Configured Windows 10 Start Menu files are Copied to the Default User Folder.
 
@@ -107,12 +107,9 @@ For any issues or idea, feel free to contact me
 ### Part A: File Compression ###
 
 
-In order to successfully install the SCCM Client by Windows 10 Dynamic Provisioning (WCD), the SCCM Client installer “CCMSetup.exe” along with all the dependancies must be packaged
+In order to successfully install the SCCM Client by Windows 10 Dynamic Provisioning (WCD), the SCCM Client installer “CCMSetup.exe”, along with all the dependancies must be packaged into a CAB file for easy reading and extraction.
 
-into a CAB file for easy reading and extraction.
-
-This can be one of two ways:
-
+This can be done one of two ways:
 
 A.	Using the makecab command line
 
@@ -195,29 +192,41 @@ ProvisioningCommands (Top Level Menu)
 
 ### The Batch File Code ###
 
-
-set LOGFILE=%SystemDrive%\install_sccm_client.log
-
-
-echo Expanding installer_assets.cab >> %LOGFILE%
-
+set LOGFILE=%SystemDrive%\Windows\Logs\install_sccm_client.log
+set curTimestamp=%date:~7,2%_%date:~3,3%_%date:~10,4%_%time:~0,2%_%time:~3,2%
+echo Provisioning Starting Time: %curTimestamp% >> %LOGFILE%
+echo Creating Logs Folder >> %LOGFILE%
+mkdir C:\Logs >> %LOGFILE%
+echo Expanding sccmclient.cab >> %LOGFILE%
 expand -r sccmclient.cab -F:* . >> %LOGFILE%
-
+echo result: %ERRORLEVEL% >> %LOGFILE%
+echo Installing SCCM Client Software >> %LOGFILE%
+Ccmsetup.exe >> %LOGFILE%
 echo result: %ERRORLEVEL% >> %LOGFILE%
 
-echo Installing SCCM-Client >> %LOGFILE%
-
-Ccmsetup.exe  >> %LOGFILE%
-
+echo Installing Google Chrome
+googlechromestandaloneenterprise64.msi /qn >> %LOGFILE%
 echo result: %ERRORLEVEL% >> %LOGFILE%
 
-echo Adding Local Machine to Collection Via Web Server >> %LOGFILE%
-
-start iexplore.exe http://webserver/RunScriptWithArgument?argument=%COMPUTERNAME% >> %LOGFILE%
+echo Copying Start Menu Configuration >> %LOGFILE%
+copy DefaultLayouts.xml C:\Users\Default\AppData\Local\Microsoft\Windows\Shell\StartMenu.xml >> %LOGFILE%
+echo result: %ERRORLEVEL% >> %LOGFILE%
+copy LayoutModification.xml C:\Users\Default\AppData\Local\Microsoft\Windows\Shell\LayoutModification.xml >> %LOGFILE%
+echo result: %ERRORLEVEL% >> %LOGFILE%
+ 
+echo Creating Scheduled Task >> %LOGFILE%
+powershell.exe -ExecutionPolicy Bypass -NoLogo -NonInteractive -File AddLocalMachineToCollection.ps1 >> %LOGFILE%
+echo result: %ERRORLEVEL% >> %LOGFILE%
 
 echo Adding AutoLogin to local test account >> %LOGFILE%
-regedit.exe /S autologin-prov.reg >> %LOGFILE%
+regedit.exe /S autologin.reg >> %LOGFILE%
+echo result: %ERRORLEVEL% >> %LOGFILE%
 
+echo Running GP Update >> %LOGFILE%
+gpupdate /force >> %LOGFILE%
+echo result: %ERRORLEVEL% >> %LOGFILE%
+
+echo Provisioning Completed at:%curTimestamp%  >> %LOGFILE%
 
 ### Part D: Creating the WCD Package Part 3 (Adding the machine to the collection) ###
 
@@ -232,7 +241,7 @@ It took a while to figure this part out due to the fact that you can’t add a m
 
 The gist of this process is during the batch file process, once the sccm client has been installed, a scheduled task is created to run the Collection Add Script.
 
-Once the configuration has finished and the sleep period ends, an Internet Explorer session opens and runs the url of our web server that is located on the SCCM Server.
+Once the configuration has finished and the sleep period ends, a Google Chrome session opens and runs the url of our web server that is located on the SCCM Server.
 
 By using a web server to communicate with SCCM, we simplify the process and eliminate the need for a coded credentials in the provisioning package. 
 
