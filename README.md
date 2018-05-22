@@ -69,27 +69,39 @@ For any issues or idea, feel free to contact me
 
 3. The Machine is Turned On and the Package is Automatically Read.
 
-1.	OOBE “Out of Box Experience” is bypassed.
+4.	OOBE “Out of Box Experience” is bypassed.
 
-2.	Local Admin User Account is setup for testing & troubleshooting.
+5.	Local Admin User Account is setup for testing & troubleshooting.
 
-3.	The Device is joined to the domain
+6.	The Device is joined to the domain
 
-4.	Windows 10 Pro is upgraded to Windows 10 Enterprise
+7.	Windows 10 Pro is upgraded to Windows 10 Enterprise
 
-5.	SCCM Client is installed onto the device and sync’d to SCCM Server
+8.	SCCM Client is installed onto the device and sync’d to SCCM Server
 
-6. Google Chrome is Installed.
+9. Google Chrome is Installed.
 
-7. Pre-Configured Windows 10 Start Menu files are Copied to the Default User Folder.
+10. Pre-Configured Windows 10 Start Menu files are Copied to the Default User Folder.
 
-8. The Service Account Auto-Login Registry keys are imported.
+11. The Service Account Auto-Login and Reboot Registry keys are imported.
 
-9. The Scheduled Task to add the machine to the collection is added.
+12. The Scheduled Task to add the machine to the collection is created.
 
-10.	After SCCM Client is installed, the device automatically added to a collection via scheduled task.
+### ICD Provisioning Ends ###
 
-11.	Once the machine is added to the collection, a task sequence starts to finish the machine setup, install software and complete the configuration.
+### POST-PROVISIONING SETUP ###
+
+13.	The Machine Auto-Logs into the Domain Joined Service Account.
+
+14. The System waits for 1:30 mins for SCCM to Configure.
+
+15. The System then reboots and Auto-Logins back into Domain Service Account.
+
+16. The Scheduled Task Runs and Google Chrome is automatically opened to the Web Server.
+
+17. The Machine is then added to the Provisioning SCCM Collection.
+
+14.	Lastly, a task sequence starts to finish the machine setup, install software and complete the configuration.
 
 
 ### Part A: File Compression ###
