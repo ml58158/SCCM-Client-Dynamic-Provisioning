@@ -35,11 +35,12 @@ Hardware Requirements:
 
 Deployment Instructions:
 
-* Use WCD to build the provisioning package
+* Use ICD to build the provisioning package
 
 * Copy the package and associated .cat file to the root directory of the usb stick.
 
-* Only packages with OOBE elements needs a new computer for testing
+* Only packages with OOBE elements needs a new computer for testing;
+  Otherwise, a used computer can be used for a refresh.
 
 
 ### Contribution guidelines ###
@@ -62,10 +63,15 @@ For any issues or idea, feel free to contact me
 
 ### The Provisioning Process ###
 
+1. The Machine is Unboxed. (New Machines Only)
 
-1.	OOBE “Out of Box Experience” is hidden 
+2. The Provisioning USB is Plugged into the Machine.
 
-2.	Local Admin User Account is setup for testing
+3. The Machine is Turned On and the Package is Automatically Read.
+
+1.	OOBE “Out of Box Experience” is bypassed.
+
+2.	Local Admin User Account is setup for testing & troubleshooting.
 
 3.	The Device is joined to the domain
 
@@ -73,9 +79,17 @@ For any issues or idea, feel free to contact me
 
 5.	SCCM Client is installed onto the device and sync’d to SCCM Server
 
-6.	After SCCM Client is installed, the device automatically added to a collection.
+6. Google Chrome is Installed.
 
-7.	Once the machine is added to the collection, a task sequence starts to finish the machine setup and configuration.
+7. Pre-Configured Windows 10 Start Menu files are Copied to the Default User Folder.
+
+8. The Service Account Auto-Login Registry keys are imported.
+
+9. The Scheduled Task to add the machine to the collection is added.
+
+10.	After SCCM Client is installed, the device automatically added to a collection via scheduled task.
+
+11.	Once the machine is added to the collection, a task sequence starts to finish the machine setup, install software and complete the configuration.
 
 
 ### Part A: File Compression ###
