@@ -107,7 +107,7 @@ For any issues or idea, feel free to contact me
 ### Part A: File Compression ###
 
 
-In order to successfully install the SCCM Client by Windows 10 Dynamic Provisioning (WCD), the SCCM Client installer “CCMSetup.exe”, along with all the dependancies must be packaged into a CAB file for easy reading and extraction.
+In order to successfully install the SCCM Client by Windows 10 Dynamic Provisioning (WCD), the SCCM Client installer: “CCMSetup.exe”, along with all the dependancies that must be packaged into a CAB file for easy reading and extraction.
 
 This can be done one of two ways:
 
@@ -171,7 +171,7 @@ The files that were included in the CAB are the entirety of the Client folder fr
 Once I had the files compressed into a CAB File, I wrote a batch file to extract the contents, run ccmsetup.exe with the required switches and log the process with each step for easy troubleshooting. 
 
 
-The Process:
+## The Process: ##
 
 In order to include the CAB file into the WICD package, I chose DeviceContext in the ProvisioningCommands menu. 
 
@@ -184,7 +184,7 @@ ProvisioningCommands (Top Level Menu)
 
                  = sccm-install.bat
 
-                 = AddLocalMachineToCollection.ps1
+                 = sccmclient.cab
 
 
 •	CommandLine = cmd /c sccm-install.bat
@@ -228,26 +228,23 @@ echo result: %ERRORLEVEL% >> %LOGFILE%
 
 echo Provisioning Completed at:%curTimestamp%  >> %LOGFILE%
 
-### Part D: Creating the WCD Package Part 3 (Adding the machine to the collection) ###
+### Part D: Creating the WCD Package Part 3 (Adding the Machine to the Collection) ###
 
 
-Introduction: (10,000 FT Overview)
+## Introduction: (10,000 FT Overview) ##
 
 
 The last part of the process is adding the machine to the sccm collection.
 
+It took a while to figure this part out, due to the fact that you can’t add a machine into a collection that doesn’t have the client installed. (No Client = No Record in SCCM DB)
 
-It took a while to figure this part out due to the fact that you can’t add a machine into a collection that doesn’t have the client installed.
+The gist of this process is during the batch file process, once the SCCM client has been installed, a scheduled task is created to run the Add to Collection Script and the machine reboots.
 
-The gist of this process is during the batch file process, once the sccm client has been installed, a scheduled task is created to run the Collection Add Script.
-
-Once the configuration has finished and the sleep period ends, a Google Chrome session opens and runs the url of our web server that is located on the SCCM Server.
+Once the machine has rebooted and logged in, a Google Chrome session opens and runs the url of our web server that is located on the SCCM Server.
 
 By using a web server to communicate with SCCM, we simplify the process and eliminate the need for a coded credentials in the provisioning package. 
 
-Lastly, we set the computer to auto-login to the test account, so the process is automated.
-
-I am still tweaking the code below but it currently works as intended.
+Lastly, we set the computer to auto-login to the SCCM Service Account, so the process is automated.
 
 ### Server-Side Powershell Code ###
 
@@ -277,14 +274,15 @@ $Computer1 | Out-String
 Windows Registry Editor Version 5.00
 
 [HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon]
-"DefaultUserName"="TestUser"
+"DefaultUserName"="Domain\ServiceAccount"
 "AutoAdminLogon"="1"
 "DefaultPassword"="Password"
+"DefaultDomain"="constoco.com"
 
 ### Post-Process Clean ###
 
-Once the task sequence runs, a clean script is triggered that removes any scheduled tasks,
-left-over files, etc that was used during the provisioning process.
+Once the task sequence finishes, a clean script is triggered that removes any scheduled tasks,
+left-over files,Windows 10 bleatware, etc that was used during the provisioning process.
 
 
 ### References ###
