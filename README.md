@@ -7,7 +7,7 @@
 
 This is the code repo for the SCCM Client Install through Windows 10 Dynamic Provisioning Process.
 
-This is the first version of the process as I intend to perfect the process.
+This is the third version of the process as I iterated it a few times to tweak different issues.
 
 
 This is still a work in progress, so I will make changes to the readme and code as I do more testing.
