@@ -41,6 +41,11 @@ Deployment Instructions:
 
 * Only packages with OOBE elements needs a new computer for testing;
   Otherwise, a used computer can be used for a refresh.
+  
+### Why Dynamic Provisioning ###
+* Any store bought Windows device (Desktop,Laptop,Tablet) can be made Enterprise Ready in a matter of minutes.
+
+* Required Software is installed on a new machine in Minutes VS. Microsoft inTune which takes up to 24 hours to install required apps.
 
 
 ### Contribution guidelines ###
