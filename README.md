@@ -42,7 +42,7 @@ Deployment Instructions:
 * Only packages with OOBE elements needs a new computer for testing;
   Otherwise, a used computer can be used for a refresh.
   
-### Why Dynamic Provisioning ###
+### Why Dynamic Provisioning? ###
 
 * Any store bought Windows device (Desktop,Laptop,Tablet) can be made Enterprise Ready in a matter of minutes.
 
