@@ -250,7 +250,6 @@ Lastly, we set the computer to auto-login to the SCCM Service Account, so the pr
 
 ### Server-Side Powershell Code ###
 
-#Variables
 *Note* $args[1] pulls the machine name from the client machine running the provisioning package.
 $Computer = $args[1]
 $SCCMServer = "localhost"
