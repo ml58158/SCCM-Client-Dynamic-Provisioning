@@ -47,25 +47,6 @@ Deployment Instructions:
 
 * Required Software is installed on a new machine in Minutes VS. Microsoft inTune which takes up to 24 hours to install required apps.
 
-
-### Contribution guidelines ###
-
-
-* Feel free to contribute to this project and make improvements.
-
-* I ask that you fork a new branch for each new feature.
-
-* Once a new feature is ready for testing, I can test it and will initiate a pull request.
-
-* If testing is successful, I will merge it into the master branch.
-
-
-### Who do I talk to? ###
-
-
-For any issues or idea, feel free to contact me 
-
-
 ### The Provisioning Process ###
 
 1. The Machine is Unboxed. (New Machines Only)
@@ -299,3 +280,4 @@ https://docs.microsoft.com/en-us/windows/configuration/provisioning-packages/pro
 https://docs.microsoft.com/en-us/windows/configuration/provisioning-packages/provision-pcs-with-apps
 
 https://docs.microsoft.com/en-us/windows/configuration/provisioning-packages/provisioning-script-to-install-app
+
