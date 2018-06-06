@@ -251,7 +251,7 @@ Lastly, we set the computer to auto-login to the SCCM Service Account, so the pr
 ### Server-Side Powershell Code ###
 
 #Variables
-# $args[1] pulls the location machine name from machine running the provisioning package.
+*Note* $args[1] pulls the machine name from the client machine running the provisioning package.
 $Computer1 = $args[1]
 $SCCMServer = "localhost"
 $SiteCode = "SITECODE"
