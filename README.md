@@ -252,7 +252,7 @@ Lastly, we set the computer to auto-login to the SCCM Service Account, so the pr
 
 #Variables
 *Note* $args[1] pulls the machine name from the client machine running the provisioning package.
-$Computer1 = $args[1]
+$Computer = $args[1]
 $SCCMServer = "localhost"
 $SiteCode = "SITECODE"
 $CollectionID = "Collection ID"
@@ -269,7 +269,7 @@ Import-PSSession -Session $session -Module ConfigurationManager -AllowClobber
 #Add Local Machine to Collection
 Add-CMDeviceCollectionDirectMembershipRule -CollectionID $CollectionID -ResourceId $(Get-CMDevice -Name $Computer1).ResourceID
 
-$Computer1 | Out-String 
+$Computer | Out-String 
 
 ### AutoLogin Registry Code ###
 
