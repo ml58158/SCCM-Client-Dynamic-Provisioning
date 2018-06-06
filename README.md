@@ -47,6 +47,8 @@ Deployment Instructions:
 
 * Required Software is installed on a new machine in Minutes VS. Microsoft inTune which takes up to 24 hours to install required apps.
 
+* Less time to maintain than traditio
+
 ### The Provisioning Process ###
 
 1. The Machine is Unboxed. (New Machines Only)
