@@ -64,39 +64,38 @@ Deployment Instructions:
 
 4.	OOBE “Out of Box Experience” is bypassed.
 
-5.	Local Admin User Account is setup for testing & troubleshooting.
+5.	The Device is joined to the domain
 
-6.	The Device is joined to the domain
+6.	Windows 10 Pro is upgraded to Windows 10 Enterprise
 
-7.	Windows 10 Pro is upgraded to Windows 10 Enterprise
+7.	SCCM Client is installed onto the device and sync’d to SCCM Server
 
-8.	SCCM Client is installed onto the device and sync’d to SCCM Server
+8.  Google Chrome is Installed.
 
-9.  Google Chrome is Installed.
+9. Pre-Configured Windows 10 Start Menu files are Copied to the Default User Folder.
 
-10. Pre-Configured Windows 10 Start Menu files are Copied to the Default User Folder.
+10. The Service Account Auto-Login and Reboot Registry keys are imported.
 
-11. The Service Account Auto-Login and Reboot Registry keys are imported.
-
-12. The Scheduled Task to add the machine to the collection is created.
+11. The Scheduled Task to add the machine to the collection is created.
 
 ### ICD Provisioning Ends ###
 
 ### POST-PROVISIONING SETUP ###
 
-13.	The Machine Auto-Logs into the Domain Joined Service Account.
+12.	The Machine Auto-Logs into the Domain Joined Service Account.
 
-14. The System waits for 1:30 mins for SCCM to Configure.
+13. The System waits for 1:30 mins for SCCM to Configure.
 
-15. The System then reboots and Auto-Logins back into Domain Service Account.
+14. The System then reboots and Auto-Logins back into Domain Service Account.
 
-16. The Scheduled Task Runs and Google Chrome is automatically opened to the Web Server.
+15. The Scheduled Task Runs and Google Chrome is automatically opened to the Web Server.
 
-17. The Machine is then added to the Provisioning SCCM Collection.
+16. The Machine is then added to the Provisioning SCCM Collection.
 
-18.	The Enterprise Software and Configure Task Sequence starts to finish the machine setup, install software and complete the configuration.
+17.	The Enterprise Software and Configure Task Sequence starts to finish the machine setup, install software and complete the configuration.
 
-19. Finally, System Orchestrator runs a 'Delete from SCCM Collection' Runbook that removes the machine from the collection.
+18. Finally, a Status Filter Rule is created that will execute a vbs script upon the successful completion of the task sequence.
+    This final step removes the provsioned machine from the collection and keeps the collection clean.
 
 
 ### Part A: File Compression ###
