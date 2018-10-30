@@ -274,8 +274,8 @@ Windows Registry Editor Version 5.00
 
 ### Post-Process Clean ###
 
-Once the task sequence finishes, a clean script is triggered that removes any scheduled tasks,
-left-over files,Windows 10 bleatware, etc that was used during the provisioning process.
+Once the task sequence finishes, the collection is evaluted for having McAfee Agent installed,
+and the machines are removed collection once evaluated. 
 
 
 ### References ###
