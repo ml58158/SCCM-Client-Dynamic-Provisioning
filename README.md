@@ -94,8 +94,7 @@ Deployment Instructions:
 
 17.	The Enterprise Software and Configure Task Sequence starts to finish the machine setup, install software and complete the configuration.
 
-18. Finally, a Status Filter Rule is created that will execute a vbs script upon the successful completion of the task sequence.
-    This final step removes the provsioned machine from the collection and keeps the collection clean.
+18. Finally, an Anti-Virus WQL Query is checked against the collection and if the Task Sequence is successful AND the Anti-Virus software is installed, the machine name is automatically cleansed from the collection. (This prevents the TS from being re-ran on the machine.)
 
 
 ### Part A: File Compression ###
