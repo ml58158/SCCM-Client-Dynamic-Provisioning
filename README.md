@@ -70,7 +70,7 @@ Deployment Instructions:
 
 7.	SCCM Client is installed onto the device and sync’d to SCCM Server
 
-8.  Google Chrome is Installed.
+8.  Google Chrome is Installed.(To interface with Web Server)
 
 9. Pre-Configured Windows 10 Start Menu files are Copied to the Default User Folder.
 
@@ -84,17 +84,21 @@ Deployment Instructions:
 
 12.	The Machine Auto-Logs into the Domain Joined Service Account.
 
-13. The System waits for 1:30 mins for SCCM to Configure.
+13. The System waits for 1:30 mins for SCCM to Configure and sync with Site Server.
 
 14. The System then reboots and Auto-Logins back into Domain Service Account.
 
-15. The Scheduled Task Runs and Google Chrome is automatically opened to the Web Server.
+15. The Scheduled Task Runs and Google Chrome is automatically opened to the Web Server address.
 
-16. The Machine is then added to the Provisioning SCCM Collection.
+16. The local machine name is passed to the site server.
 
-17.	The Enterprise Software and Configure Task Sequence starts to finish the machine setup, install software and complete the configuration.
+17. The Machine is then added to the Provisioning SCCM Collection via the Add local machine to collection Powershell code.
 
-18. Finally, an Anti-Virus WQL Query is checked against the collection and if the Task Sequence is successful AND the Anti-Virus software is installed, the machine name is automatically cleansed from the collection. (This prevents the TS from being re-ran on the machine.)
+18. The machine retrives the SCCM policy then starts downloading the task sequence. 
+
+19.	The Enterprise Software and Configure Task Sequence completes to finish the machine setup, install required software and complete the configuration.
+
+20. Finally, an Anti-Virus WQL Query is checked against the collection and if the Task Sequence is successful AND the Anti-Virus software is installed, the machine name is automatically cleansed from the collection. (This prevents the TS from being re-ran on the machine.)
 
 
 ### Part A: File Compression ###
